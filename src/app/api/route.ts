@@ -7,7 +7,6 @@ export async function POST(req:NextRequest) {
     // اتصال به دیتابیس
     await Conecttodb();
     const body = await req.json();
-console.log(body);
 
 
  await prodouct.create(body);
