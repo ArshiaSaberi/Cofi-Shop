@@ -12,6 +12,7 @@ interface PutBody {
   action: "like" | "dislike";
   userId: string;
 }
+
 interface Params {
   id: string;
 }
@@ -28,14 +29,14 @@ function isDuplicateKeyError(err: unknown): err is MongoDuplicateKeyError {
 // ================= GET =================
 export async function GET(
   req: NextRequest,
-  context: { params: Params } // این دقیقا باید همینه
+  context: { params: Promise<Params> } // تغییر به Promise
 ) {
   try {
     await Conecttodb();
 
-    const productId = await context.params;
+    const { id } = await context.params; // await کردن پارامترها
 
-    if (!productId.id) {
+    if (!id) {
       return NextResponse.json(
         { success: false, message: "Product ID is required" },
         { status: 400 }
@@ -43,7 +44,7 @@ export async function GET(
     }
 
     // پیدا کردن کامنت‌ها برای محصول
-    const comments = await Comment.find({ productId: productId.id })
+    const comments = await Comment.find({ productId: id })
       .populate("userId")
       .sort({
         createdAt: -1,
@@ -63,15 +64,14 @@ export async function GET(
 // ================= POST =================
 export async function POST(
   req: NextRequest,
-  context: { params: Params } // این دقیقا باید همینه
+  context: { params: Promise<Params> } // تغییر به Promise
 ) {
   try {
     await Conecttodb();
 
-    const productId =  context.params;
-    console.log("ProductId for POST:", productId, "✅","11111");
+    const { id } = await context.params; // await کردن پارامترها
 
-    if (!productId.id) {
+    if (!id) {
       return NextResponse.json(
         { success: false, message: "Product ID is required" },
         { status: 400 }
@@ -84,11 +84,8 @@ export async function POST(
     const newComment = await Comment.create({
       ...body,
       isActive: false,
-      productId: productId.id,
+      productId: id,
     });
-
-    // اگر میخوای populate کاربر هم بکنی، اینجا انجام بده
-    // const populatedComment = await newComment.populate('user');
 
     return NextResponse.json({ success: true, data: newComment });
   } catch (err: unknown) {
@@ -109,14 +106,15 @@ export async function POST(
   }
 }
 
+// ================= PUT =================
 export const PUT = async (
   req: NextRequest,
-  context: { params: Params } // این دقیقا باید همینه
+  context: { params: Promise<Params> } // تغییر به Promise
 ) => {
   try {
     await Conecttodb();
 
-    const commentId =await context.params;
+    const { id } = await context.params; // await کردن پارامترها
     const body: PutBody = await req.json();
     const { action, userId } = body;
 
@@ -127,7 +125,7 @@ export const PUT = async (
       );
     }
 
-    const comment = await Comment.findById(commentId.id).exec();
+    const comment = await Comment.findById(id).exec();
 
     if (!comment) {
       return NextResponse.json(
@@ -143,7 +141,6 @@ export const PUT = async (
 
     const userObjectId = new Types.ObjectId(userId);
 
-    // بررسی اینکه کاربر قبلاً لایک یا دیسلایک زده
     const hasLiked =
       comment.likedBy.findIndex((u: Types.ObjectId) =>
         u.equals(userObjectId)
@@ -164,10 +161,8 @@ export const PUT = async (
         }
       }
       if (!hasLiked) {
-        // اضافه کردن لایک فقط اگر قبلاً لایک نزده
         comment.likedBy.push(userObjectId);
       }
-      // حذف کاربر از دیسلایک در هر صورت
       if (hasDisliked) {
         comment.dislikedBy = comment.dislikedBy.filter(
           (u: Types.ObjectId) => !u.equals(userObjectId)
@@ -186,10 +181,8 @@ export const PUT = async (
       }
 
       if (!hasDisliked) {
-        // اضافه کردن دیسلایک فقط اگر قبلاً دیسلایک نزده
         comment.dislikedBy.push(userObjectId);
       }
-      // حذف کاربر از لایک در هر صورت
       if (hasLiked) {
         comment.likedBy = comment.likedBy.filter(
           (u: Types.ObjectId) => !u.equals(userObjectId)
@@ -197,7 +190,6 @@ export const PUT = async (
       }
     }
 
-    // Sync تعداد لایک و دیسلایک
     comment.Like = comment.likedBy.length;
     comment.Dislike = comment.dislikedBy.length;
 
