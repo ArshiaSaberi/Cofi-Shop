@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Conecttodb from "database/db";
 import Comment from "@MOLDS/Comment";
-import  { Types } from "mongoose";
+import { Types } from "mongoose";
 
 type MongoDuplicateKeyError = {
   code: number;
@@ -12,7 +12,9 @@ interface PutBody {
   action: "like" | "dislike";
   userId: string;
 }
-
+interface Params {
+  id: string;
+}
 
 function isDuplicateKeyError(err: unknown): err is MongoDuplicateKeyError {
   return (
@@ -26,13 +28,12 @@ function isDuplicateKeyError(err: unknown): err is MongoDuplicateKeyError {
 // ================= GET =================
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } } // Next.js 16 App Router همینطوری params رو میده
+  context: { params: Params } // این دقیقا باید همینه
 ) {
   try {
     await Conecttodb();
 
-    const productId = await params;
-    console.log("ProductId:", productId.id, "✅");
+    const productId = await context.params;
 
     if (!productId.id) {
       return NextResponse.json(
@@ -62,13 +63,13 @@ export async function GET(
 // ================= POST =================
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Params } // این دقیقا باید همینه
 ) {
   try {
     await Conecttodb();
 
-    const productId = await params;
-    console.log("ProductId for POST:", productId.id, "✅");
+    const productId =  context.params;
+    console.log("ProductId for POST:", productId, "✅","11111");
 
     if (!productId.id) {
       return NextResponse.json(
@@ -108,15 +109,14 @@ export async function POST(
   }
 }
 
-
 export const PUT = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Params } // این دقیقا باید همینه
 ) => {
   try {
     await Conecttodb();
 
-    const commentId = await params;
+    const commentId =await context.params;
     const body: PutBody = await req.json();
     const { action, userId } = body;
 
