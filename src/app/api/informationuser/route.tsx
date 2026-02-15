@@ -22,7 +22,11 @@ export const GET = async () => {
       return NextResponse.json({ data: null, error: null }, { status: 200 });
     }
 
-    const user = await modeluser.findOne({ email: decoded.email }).populate("cart").populate("comment").populate("question");
+    const user = await modeluser
+      .findOne({ email: decoded.email })
+      .populate("cart")
+      .populate("comment")
+      .populate("question");
 
     return NextResponse.json({ data: user, error: null });
   } catch (error) {

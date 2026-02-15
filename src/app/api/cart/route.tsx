@@ -74,7 +74,6 @@ export async function GET(
       status: "active",
     }).populate("items.product");
 
-
     // فرمت نهایی برای اطمینان از داشتن totalPrice و totalQuantity
     const formattedCarts: CartType[] = carts.map((cart) => ({
       ...cart.toObject(),

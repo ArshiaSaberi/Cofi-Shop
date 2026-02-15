@@ -61,7 +61,7 @@ export async function POST(
     const newQuestion = await Question.create({
       question,
       userId,
-      isActive:false,
+      isActive: false,
       productId: productId.id,
     });
 
@@ -69,11 +69,13 @@ export async function POST(
 
     return NextResponse.json({ success: true, data: populated });
   } catch (err) {
-  console.error("POST question error:", err);
-  return NextResponse.json(
-    { success: false, message: err instanceof Error ? err.message : "Unknown error" },
-    { status: 500 }
-  );
-}
-
+    console.error("POST question error:", err);
+    return NextResponse.json(
+      {
+        success: false,
+        message: err instanceof Error ? err.message : "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
 }
