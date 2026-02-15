@@ -9,7 +9,8 @@ interface SliderProdouctProps {
   price: number;
   description: string;
   images: string;
-  loading?: boolean; // اضافه کردن prop loading
+  loading?: boolean;
+  
 }
 
 export default function SliderNewProdouct(props: SliderProdouctProps) {
