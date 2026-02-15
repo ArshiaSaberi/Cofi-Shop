@@ -1,0 +1,187 @@
+@font-face {
+  font-family: "Roboto-Black";
+  src: url("../../public/fill-font-img-svg-icon/fonts/Roboto/Roboto-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto_medium";
+  src: url("../../public/fill-font-img-svg-icon/fonts/Roboto/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Archivo_Black";
+  src: url("../../public/fill-font-img-svg-icon/fonts/Archivo/Archivo-Black.ttf") format("truetype");
+}
+
+
+@font-face {
+  font-family: "IranNastaliq";
+  src: url(../../public/fill-font-img-svg-icon/fonts/IranNastaliq.ttf);
+}
+
+@font-face {
+  font-family: "IRANSansWeb";
+  src: url(../../public/fill-font-img-svg-icon/fonts/IRANSansWeb.ttf);
+}
+
+@font-face {
+  font-family: "IRANSansWeb_Bold";
+  src: url(../../public/fill-font-img-svg-icon/fonts/IRANSansWeb_Bold.ttf);
+}
+
+@font-face {
+  font-family: "IRANSansWeb_Light";
+  src: url(../../public/fill-font-img-svg-icon/fonts/IRANSansWeb_Light.ttf);
+}
+
+@font-face {
+  font-family: "Yekan";
+  src: url(../../public/fill-font-img-svg-icon/fonts/Yekan.ttf);
+
+}
+
+
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --primry: #F6F5F0;
+  --sandstone: #B0A27B;
+  --coffee-brown: #4F2C19;
+  --dark-charcoal: #242424;
+  --charcoal: #333333;
+  --slate-gray: #3D3D3D;
+  --chocolate-dark: #4F2C19;
+  --sand-beige: #B0A27B;
+
+  --Roboto-Black: "Roboto-Black";
+  --Roboto_medium: "Roboto_medium";
+  --Archivo_Black: "Archivo_Black"
+
+
+}
+
+@theme {
+  --color-blak: var(--foreground);
+  --color-primry: var(--primry);
+  --color-sandstone: var(--sandstone);
+  --color-coffee-brown: var(--coffee-brown);
+  --font-Roboto-Black: var(--Roboto-Black);
+  --font-Roboto_medium: var(--Roboto_medium);
+  --font-Archivo_Black: var(--Archivo_Black);
+  --color-dark-charcoal: var(--dark-charcoal);
+  --color-charcoal: var(--charcoal);
+  --color-slate-gray: var(--slate-gray);
+  --color-chocolate-dark: var(--chocolate-dark);
+  --color-sand-beige: var(--sand-beige);
+  --font-IRANSansWeb_Bold: "IRANSansWeb_Bold";
+
+}
+
+@layer base {
+  body {
+    color: var(--foreground);
+    font-family: "IRANSansWeb_Light", "IRANSansWeb", "IRANSansWeb_Bold", "Roboto_medium", "Roboto-Black", sans-serif;
+    background-color: var(--primry);
+    line-height: 1.6;
+  }
+}
+
+@layer components {
+  .containers {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+  }
+
+}
+
+@layer utilities {
+  .text-charcoal {
+    color: var(--charcoal);
+  }
+
+  .text-Yekan {
+    font-family: "Yekan";
+  }
+
+  .text-IRANSansWeb_Light {
+    font-family: "IRANSansWeb_Light";
+
+  }
+
+  .text-IRANSansWeb {
+    font-family: "IRANSansWeb";
+  }
+
+  .text-IRANSansWeb_Bold {
+    font-family: "IRANSansWeb_Bold";
+  }
+
+  .text-Roboto-Black {
+    font-family: "Roboto-Black";
+  }
+
+  .text-Roboto_medium {
+    font-family: "Roboto_medium";
+  }
+
+  .text-Archivo_Black {
+    font-family: "Archivo_Black";
+  }
+
+
+  .text-sand-beige {
+    color: var(--sand-beige);
+  }
+
+  .bg-bg {
+    background-image: url(../../public/fill-font-img-svg-icon/images/Image.png);
+    object-fit: cover;
+    /* تصویر کل باکس رو پر می‌کنه */
+    object-position: center;
+  }
+
+  ;
+
+  .bg-headerbg {
+    background-image: url(../../public/fill-font-img-svg-icon/images/COFFEE.svg.png);
+    object-fit: cover;
+    /* تصویر کل باکس رو پر می‌کنه */
+    object-position: center;
+    /* تصویر رو وسط باکس قرار می‌ده */
+  }
+
+  ;
+
+  .bg-header {
+    background-image: url(../../public/fill-font-img-svg-icon/images/hehe.png);
+    object-fit: cover;
+    /* تصویر کل باکس رو پر می‌کنه */
+    object-position: center;
+    /* تصویر رو وسط باکس قرار می‌ده */
+  }
+
+  .custom-scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #F6F5F0;
+    border-radius: 4px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: var(--coffee-brown);
+    border-radius: 4px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--charcoal);
+  }
+
+}
