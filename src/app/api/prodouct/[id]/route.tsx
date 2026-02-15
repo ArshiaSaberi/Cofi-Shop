@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } } // استفاده از context برای دریافت params
+  context: { params: Promise<{ id: string }> } // استفاده از context برای دریافت params
 ) {
   try {
     await Conecttodb();

@@ -5,7 +5,7 @@ import Question from "@MOLDS/Question";
 /* ================= GET ================= */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await Conecttodb();
@@ -35,7 +35,7 @@ export async function GET(
 /* ================= POST ================= */
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await Conecttodb();
