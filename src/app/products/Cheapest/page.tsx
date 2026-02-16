@@ -9,7 +9,7 @@ interface ProductType {
   category: string;
   price: number;
   description: string;
-  image: string;
+ images: string[];
   discountPercent: number;
   finalPrice: number;
   updatedAt: string; // تاریخ‌ها معمولاً به صورت رشته از API می‌آیند

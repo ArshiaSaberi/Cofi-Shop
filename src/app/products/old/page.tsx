@@ -9,8 +9,7 @@ interface ProductType {
   category: string;
   price: number;
   description: string;
-  image: string;
-  discountPercent: number;
+ images: string[];  discountPercent: number;
   finalPrice: number;
   updatedAt: Date;
   createdAt: Date;
