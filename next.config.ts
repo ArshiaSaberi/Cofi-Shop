@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["secure.gravatar.com"],
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // typescript: {
+  //   ignoreBuildErrors: true,
+  // },
 };
 
 export default nextConfig;
