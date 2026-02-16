@@ -58,7 +58,7 @@ export default function OldProducts() {
     async function getProducts() {
       try {
         setIsLoading(true);
-        const res = await fetch("http://localhost:3000/api/prodouct", {
+        const res = await fetch("/api/prodouct", {
           cache: "no-store",
         });
         const data: ProductType[] = await res.json();
