@@ -1,8 +1,7 @@
-import React from "react";
 import { bradns, Categorybrand } from "@utils/brand/db";
 import Image from "next/image";
 
-export function Brand() {
+export default function Brand() {
   return (
     <div className="mt-[60px] flex items-center justify-evenly flex-wrap relative">
       <Image

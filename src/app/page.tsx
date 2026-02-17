@@ -2,15 +2,16 @@
 import Image from "next/image";
 import Categorization from "../../componnt/modules/categorization";
 import { productCategories } from "../../utils/categori/db";
-import { Brand } from "../../componnt/modules/brand";
 import { Articl } from "../../componnt/modules/Articles";
 import { Articls } from "../../componnt/modules/swiper";
 import Link from "next/link";
 import Header from "../../componnt/templates/header";
 import { NewProductslider } from "../../componnt/modules/newprodoucts";
 import { NewProductsliderDiscount } from "../../componnt/modules/newproductssliderdiscount";
-import Footer from "../../componnt/templates/footer";
+import React from "react";
 
+const FooterLazy = React.lazy(() => import("@componnt/templates/footer"));
+const BrandLazy = React.lazy(() => import("@componnt/modules/brand"));
 
 export default function Home() {
   return (
@@ -31,23 +32,23 @@ export default function Home() {
             بهترین و با کیفیت ترین قهوه ها و اکسسوری ها در خانه قهوه چالوس
           </div>
           <Link href={"/products"}>
-          <div className="text-white border border-sandstone bg-sandstone w-[216px] h-[48px] rounded-[100px] text-xl flex items-center justify-center gap-2 cursor-pointer">
-            نمایش محصولات
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5} // <-- اصلاح شد
-              stroke="currentColor"
-              className="w-6 h-6" // اگر Tailwind استفاده می‌کنید
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-              />
-            </svg>
-          </div>
+            <div className="text-white border border-sandstone bg-sandstone w-[216px] h-[48px] rounded-[100px] text-xl flex items-center justify-center gap-2 cursor-pointer">
+              نمایش محصولات
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5} // <-- اصلاح شد
+                stroke="currentColor"
+                className="w-6 h-6" // اگر Tailwind استفاده می‌کنید
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+            </div>
           </Link>
           <div className="bg-header relative bg-cover bg-center bg-no-repeat w-[800px] h-[435px] mt-10  max-2xl:w-[650px] max-2xl:h-[390px] max-lg:w-[550px] max-lg:h-[350px]  max-md:w-[450px] max-md:h-[300px] max-sm:w-[340px] max-sm:h-[240px] max-[400px]:max-w-[220px]">
             <div className="bg-headerbg w-[1150px] h-[179px] absolute bg-cover bg-center bg-no-repeat -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-xl:w-[700px] max-xl:h-[108px] max-md:h-[70px] max-md:w-[452px] max-[550px]:max-w-[281px] max-[550px]:max-h-[44px] max-[370px]:max-w-[231px] max-[370px]:max-h-[35px]"></div>
@@ -141,7 +142,7 @@ export default function Home() {
             <p className="text-slate-gray text-lg leading-[28px] font-bold max-[500px]:text-base max-[300px]:text-center">
               بر اساس برند مورد علاقتان انتخاب کنید
             </p>
-            <Brand></Brand>
+            <BrandLazy></BrandLazy>
           </div>
 
           {/* Discount */}
@@ -182,9 +183,12 @@ export default function Home() {
                 با تجربه رستورانی، تجربه‌ی بی‌نظیری را برای شما ایجاد خواهیم
                 کرد.
               </p>
-              <div className="text-white border border-sandstone bg-sandstone rounded-[100px] text-[20px] leading-[20px] w-[140px] h-[50px] flex items-center justify-center ml-auto mb-[64px] mt-[20px] max-[1094px]:mt-[45px] max-[787px]:mt-[100px] max-[933px]:mt-[45px] max-md:mt-0 max-[450px]:!mt-[70px] max-md:m-auto max-md:mb-[50px] max-[500px]:mb-[64px] ">
+              <Link
+                href={"/about-us"}
+                className="text-white border border-sandstone bg-sandstone rounded-[100px] text-[20px] leading-[20px] w-[140px] h-[50px] flex items-center justify-center ml-auto mb-[64px] mt-[20px] max-[1094px]:mt-[45px] max-[787px]:mt-[100px] max-[933px]:mt-[45px] max-md:mt-0 max-[450px]:!mt-[70px] max-md:m-auto max-md:mb-[50px] max-[500px]:mb-[64px] "
+              >
                 درباره ما
-              </div>
+              </Link>
             </div>
             <div className="border-[3px] border-slate-gray rounded-[8000px] md:min-w-[333px] md:min-h-[572px] p-[13px] my-[60px] relative w-[300px] h-[513px]">
               <Image
@@ -286,7 +290,7 @@ export default function Home() {
           </div>
         </main>
       </div>
-      <Footer></Footer>
+      <FooterLazy />
     </>
   );
 }
