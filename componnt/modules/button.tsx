@@ -1,3 +1,5 @@
+"use client";
+
 import { IUser } from "@MOLDS/users";
 import { useState } from "react";
 import { toast, Bounce } from "react-toastify";
