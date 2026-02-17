@@ -527,17 +527,20 @@ export default function Header() {
                           </div>
                           <div>{user.username}</div>
                         </div>
-                          <div
-                            className="flex relative items-center ml-auto gap-2 text-dark-charcoal w-full cursor-pointer hover:bg-[#E2DFD3] transition hover:text-charcoal duration-200 ease-in-out py-2 rounded-xl text-lg before:absolute before:top-[-6px] before:left-0 before:w-full before:h-[1px] before:bg-[#0000001b]
+                        <div
+                          className="flex relative items-center ml-auto gap-2 text-dark-charcoal w-full cursor-pointer hover:bg-[#E2DFD3] transition hover:text-charcoal duration-200 ease-in-out py-2 rounded-xl text-lg before:absolute before:top-[-6px] before:left-0 before:w-full before:h-[1px] before:bg-[#0000001b]
                 after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[1px] after:bg-[#0000001b]"
+                        >
+                          <Link
+                            className="flex items-center ml-auto gap-2"
+                            href="/panel"
                           >
-                        <Link className="flex items-center ml-auto gap-2" href="/panel">
                             <svg className="w-5 h-5 mr-2 ">
                               <use href="#user"></use>
                             </svg>
                             <p>جزئیات حساب </p>
-                        </Link>
-                          </div>
+                          </Link>
+                        </div>
                         <div
                           onClick={() => {
                             setuser(null);
@@ -718,9 +721,12 @@ export default function Header() {
                                   <use href="#search"></use>
                                 </svg>
                               </div>
-                              <p className="text-[#4F2C19]  max-[450px]:text-center">
+                              <Link
+                                href={`/item/${item.description}`}
+                                className="text-[#4F2C19]  max-[450px]:text-center"
+                              >
                                 {item.title}
-                              </p>
+                              </Link>
                             </div>
                           ))}
                         </div>
@@ -889,9 +895,12 @@ export default function Header() {
                                     <use href="#search"></use>
                                   </svg>
                                 </div>
-                                <p className="text-[#4F2C19]  max-[450px]:text-center">
+                                <Link
+                                  href={`/item/${item.description}`}
+                                  className="text-[#4F2C19]  max-[450px]:text-center"
+                                >
                                   {item.title}
-                                </p>
+                                </Link>
                               </div>
                             ))}
                           </div>

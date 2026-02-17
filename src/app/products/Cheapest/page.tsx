@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 "use client";
 import { JSX, useEffect, useState } from "react";
 import DiscountProductsfiltring from "../../../../componnt/modules/DiscountProductsfiltring";

@@ -160,7 +160,6 @@ export default function Filtering() {
     ).toString();
 
     if (pathname.startsWith("/products/new")) {
-      // router.push(pathname + queryad);
       router.push(`/products/new?${queryad}`);
     } else if (pathname.startsWith("/products/old")) {
       router.push(`/products/old?${queryad}`);

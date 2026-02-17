@@ -209,7 +209,7 @@ export default function RootLayout({
       </svg>
       <Header></Header>
 
-      <main className=" min-h-screen text-right font-vazir bg-[#FDFCFB]">{children}</main>
+      <main className="min-h-screen max-sm:mt-14 text-right font-vazir bg-[#FDFCFB]">{children}</main>
 
       <Footer></Footer>
     </>

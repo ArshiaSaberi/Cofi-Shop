@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 "use client";
 import { useEffect, useState } from "react";
 import DiscountProductsfiltring from "../../../../componnt/modules/DiscountProductsfiltring";
@@ -134,7 +135,7 @@ export default function NewProducts() {
     }
 
     getProducts();
-  }, [searchParams]);
+  }, [searchParams.toString()]);
 
   // ---------- صفحه‌بندی ----------
   const totalPages = Math.ceil(Products.length / itemsPerPage);
