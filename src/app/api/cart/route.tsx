@@ -71,7 +71,6 @@ export async function GET(
     // گرفتن کارت‌های فعال کاربر
     const carts: HydratedDocument<CartType>[] = await Cart.find({
       user: userId,
-      status: "active",
     }).populate("items.product");
 
     // فرمت نهایی برای اطمینان از داشتن totalPrice و totalQuantity

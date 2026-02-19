@@ -83,9 +83,6 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
   }
 }
 
-interface RouteParams {
-  params: Promise<{ id: string }>; // در Next.js جدید باید Promise باشد
-}
 
 // PUT برای بروزرسانی تعداد محصول
 export async function PUT(req: NextRequest, { params }: RouteParams) {
