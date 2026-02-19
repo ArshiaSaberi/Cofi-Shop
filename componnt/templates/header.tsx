@@ -77,7 +77,12 @@ export default function Header() {
   const [user, setuser] = useState<IUser | null>();
   const [userLoading, setUserLoading] = useState(true);
   const router = useRouter();
-  const token = getCookie("token");
+  const [token,settoken] = useState<string | null>()
+
+  useEffect(()=>{
+    const token = getCookie("token")
+    settoken(token)
+  },[])
 
   useEffect(() => {
     const fetchDatacart = async () => {
