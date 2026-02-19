@@ -8,7 +8,7 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
-  images?: string[];
+  images: string[];
   brand?: string;
   title: string;
   count?: number;

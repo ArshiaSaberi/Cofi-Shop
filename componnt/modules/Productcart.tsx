@@ -23,7 +23,7 @@ export default function Productcart({ item, onUpdate }: ProductcartProps) {
       <div className="flex-col justify-center flex gap-4">
         <div>
           <Image
-            src={"/fill-font-img-svg-icon/images/product11.jpg"}
+            src={`/fill-font-img-svg-icon/images${product.images[0]}`}
             alt={product.name || ""}
             width={110}
             height={110}

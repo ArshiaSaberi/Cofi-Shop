@@ -265,7 +265,6 @@ export default function Header() {
         <header className="containers relative">
           <div className="flex justify-between items-center">
             <div className="flex justify-start items-center w-full max-lg:justify-between">
-              {/* menu */}
 
               <div className="relative">
                 <button
@@ -374,6 +373,7 @@ export default function Header() {
                                 </div>
                               </Link>
                             </div>
+                            
                           </div>
                         </div>
                       ) : (
@@ -403,6 +403,62 @@ export default function Header() {
                           <div>تماس با من</div>
                         </Link>
                       </div>
+
+
+
+
+{user && (
+// /* delet acount for mobile */
+
+                       <div
+                          onClick={() => {
+                            setuser(null);
+                            setisclickremoveme(true);
+                            toast.success("با موفقیت خارج شدید", {
+                              position: "top-center",
+                              autoClose: 2000,
+                              hideProgressBar: false,
+                              closeOnClick: false,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined,
+                              theme: "light",
+                              transition: Bounce,
+                            });
+                          }}
+                          className="flex mb-4 px-[32px] items-center mt-auto ml-auto gap-2 text-dark-charcoal w-full cursor-pointer py-2 text-lg rounded-xl  "
+                        >
+                          <svg
+                            className="mr-2"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={24}
+                            height={24}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <g
+                              stroke="currentColor" // ← وابسته به رنگ پرنت
+                              strokeLinecap="round"
+                              strokeWidth="1.5"
+                              clipPath="url(#clip0_1917_10656)"
+                            >
+                              {/* مسیر فلش خروج */}
+                              <path
+                                strokeLinejoin="round"
+                                d="M7.5 12H21m0 0-4.701 5M21 12l-4.701-5"
+                              />
+                              {/* مسیر جعبه */}
+                              <path d="M10 3H7c-1.886 0-2.828 0-3.414.586S3 5.114 3 7v10c0 1.886 0 2.828.586 3.414S5.114 21 7 21h3" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_1917_10656">
+                                <path fill="#fff" d="M24 0v24H0V0z" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p>خروج</p>
+                        </div>
+)}
                     </div>
                   </>
                 ) : (
@@ -792,6 +848,9 @@ export default function Header() {
               </div>
             </div>
           </div>
+
+            {/* search mobile */}
+
           <div className="">
             <div
               className="border-b-[1px] border-b-gray-400  max-sm:text-sm  p-2 gap-3 flex items-center justify-start mt-3 lg:hidden w-[85%] mx-auto"
