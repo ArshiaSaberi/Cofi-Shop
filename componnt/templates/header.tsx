@@ -77,6 +77,8 @@ export default function Header() {
   const [user, setuser] = useState<IUser | null>();
   const [userLoading, setUserLoading] = useState(true);
   const router = useRouter();
+  const token = getCookie("token");
+
   useEffect(() => {
     const fetchDatacart = async () => {
       try {
@@ -99,7 +101,7 @@ export default function Header() {
     return () => {
       window.removeEventListener("cartUpdated", handleCartUpdate);
     };
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -265,7 +267,6 @@ export default function Header() {
         <header className="containers relative">
           <div className="flex justify-between items-center">
             <div className="flex justify-start items-center w-full max-lg:justify-between">
-
               <div className="relative">
                 <button
                   onClick={() => setOpen(!open)}
@@ -373,7 +374,6 @@ export default function Header() {
                                 </div>
                               </Link>
                             </div>
-                            
                           </div>
                         </div>
                       ) : (
@@ -404,13 +404,10 @@ export default function Header() {
                         </Link>
                       </div>
 
+                      {user && (
+                        // /* delet acount for mobile */
 
-
-
-{user && (
-// /* delet acount for mobile */
-
-                       <div
+                        <div
                           onClick={() => {
                             setuser(null);
                             setisclickremoveme(true);
@@ -458,7 +455,7 @@ export default function Header() {
                           </svg>
                           <p>خروج</p>
                         </div>
-)}
+                      )}
                     </div>
                   </>
                 ) : (
@@ -849,7 +846,7 @@ export default function Header() {
             </div>
           </div>
 
-            {/* search mobile */}
+          {/* search mobile */}
 
           <div className="">
             <div

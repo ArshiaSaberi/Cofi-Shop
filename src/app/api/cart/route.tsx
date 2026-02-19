@@ -3,7 +3,6 @@ import Cart from "@MOLDS/Cart";
 import connectDB from "database/db";
 import { HydratedDocument } from "mongoose";
 import { AuthPayload, verifyToken } from "@utils/auth";
-import { futimes } from "fs";
 
 // اتصال به دیتابیس
 connectDB();
@@ -71,6 +70,7 @@ export async function GET(
     // گرفتن کارت‌های فعال کاربر
     const carts: HydratedDocument<CartType>[] = await Cart.find({
       user: userId,
+      status: "active",
     }).populate("items.product");
 
     // فرمت نهایی برای اطمینان از داشتن totalPrice و totalQuantity
