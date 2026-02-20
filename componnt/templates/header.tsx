@@ -324,7 +324,7 @@ export default function Header() {
                       }}
                       className="w-screen h-screen fixed top-0 transition-all  bottom-0 right-0 left-0 bg-[rgba(0,0,0,0.7)] backdrop-blur-[6px] z-10 "
                     ></div>
-                    <div className="bg-primry  max-[450px]:min-w-[100%] w-[450px] max-[450px]: max-lg:w-[350px] max-md:w-[250px] h-screen fixed top-0 transition-all duration-200 bottom-0 left-0 z-50 flex items-center justify-start flex-col mb-auto ">
+                    <div className="bg-primry max-[450px]:min-w-[100%] w-[450px] max-[450px]: max-lg:w-[350px] max-md:w-[250px]  fixed top-0 transition-all duration-200 bottom-0 left-0 z-50 flex items-center justify-start flex-col mb-auto h-full">
                       <div className="hidden items-center justify-between w-full border-b-[1px] border-b-gray-300 p-2 px-[30px] max-[450px]:flex mb-4">
                         <button
                           onClick={() => setOpen(!open)}
