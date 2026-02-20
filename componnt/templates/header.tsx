@@ -69,7 +69,6 @@ export default function Header() {
   const [showmodaluser, setshowmodaluser] = useState(false);
   const [searchvaluemobile, setsearchvaluemobile] = useState("");
   const [includessearch, setincludessearch] = useState<ProductType[]>([]);
-  const [datacart, setdatacart] = useState<CartType[]>([]);
 
   const [datafetchsearchproduct, setdatasearchproduct] = useState<
     ProductType[]
@@ -78,32 +77,49 @@ export default function Header() {
   const [user, setuser] = useState<IUser | null>();
   const [userLoading, setUserLoading] = useState(true);
   const router = useRouter();
-  const token = getCookie("token");
 
-  const { data: cartData,refetch } =
-          useQuery<GetCartsResponse>({
-            queryKey: ["cart"],
-            queryFn: async () => {
-              const res = await fetch("/api/cart");
-              if (!res.ok) return { carts: [] };
-              return res.json();
-            },
-          });
+    const token = getCookie("token")
 
-          setdatacart(cartData?.carts)
+  const [datacart, setdatacart] = useState<CartType[]>([])
+
+  const { data, refetch } = useQuery<GetCartsResponse>({
+    queryKey: ["cart", token],
+    queryFn: async () => {
+      const res = await fetch("/api/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (!res.ok) return { carts: [] }
+      return res.json()
+    },
+    enabled: !!token,
+  })
 
   useEffect(() => {
-   
+    if (data?.carts) {
+      setdatacart(data.carts)
+    } else {
+      setdatacart([])
+    }
+  }, [data])
 
-    refetch();
+  useEffect(() => {
+    const handleCartUpdate = () => refetch()
 
-    const handleCartUpdate = () => refetch();
-    window.addEventListener("cartUpdated", handleCartUpdate);
+    window.addEventListener("cartUpdated", handleCartUpdate)
 
     return () => {
-      window.removeEventListener("cartUpdated", handleCartUpdate);
-    };
-  }, [token]);
+      window.removeEventListener("cartUpdated", handleCartUpdate)
+    }
+  }, [refetch])
+
+
+
+
+
+
 
   useEffect(() => {
     const handleScroll = () => {
