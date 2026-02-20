@@ -1,6 +1,9 @@
 "use client";
 
 export const getCookie = (name: string): string | null => {
+  if (typeof window === "undefined"){
+return null
+  }
   const cookie = document.cookie
     .split("; ")
     .find((row) => row.startsWith(name + "="));
