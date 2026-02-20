@@ -7,6 +7,7 @@ import { deleteUserAction } from "@utils/authActions/auth";
 import { deleteCookie, getCookie } from "@utils/getcookie";
 import { useRouter } from "next/navigation";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 export interface ProductType {
   _id: string;
@@ -77,25 +78,26 @@ export default function Header() {
   const [user, setuser] = useState<IUser | null>();
   const [userLoading, setUserLoading] = useState(true);
   const router = useRouter();
-    const token = getCookie("token")
+  const token = getCookie("token");
+
+  const { data: cartData,refetch } =
+          useQuery<GetCartsResponse>({
+            queryKey: ["cart"],
+            queryFn: async () => {
+              const res = await fetch("/api/cart");
+              if (!res.ok) return { carts: [] };
+              return res.json();
+            },
+          });
+
+          setdatacart(cartData?.carts)
 
   useEffect(() => {
-    const fetchDatacart = async () => {
-      try {
-        const res = await fetch("/api/cart");
+   
 
-        const data: GetCartsResponse = await res.json();
-        setdatacart(data.carts);
-      } catch (err) {
-        if ((err as Error).name !== "AbortError") {
-          console.error("Error:", err);
-        }
-      }
-    };
+    refetch();
 
-    fetchDatacart();
-
-    const handleCartUpdate = () => fetchDatacart();
+    const handleCartUpdate = () => refetch();
     window.addEventListener("cartUpdated", handleCartUpdate);
 
     return () => {
@@ -410,7 +412,7 @@ export default function Header() {
                         <div
                           onClick={() => {
                             setuser(null);
-                            setOpen(false)
+                            setOpen(false);
                             setisclickremoveme(true);
                             toast.success("با موفقیت خارج شدید", {
                               position: "top-center",
@@ -457,9 +459,6 @@ export default function Header() {
                           <p>خروج</p>
                         </div>
                       )}
-
-
-
                     </div>
                   </>
                 ) : (
@@ -497,8 +496,12 @@ export default function Header() {
                   <svg className="w-[20px] h-[20px]">
                     <use href="#cartsmobile"></use>
                   </svg>
-                  <div className={`absolute flex justify-center items-center shadow-[0_0_4px_0_rgba(0,0,0,0.1686)] w-[18px] h-[18px] border rounded-full text-[11px] border-sandstone top-[-6px] left-[-12px] bg-sandstone text-white text-Yekan ${!user && `!bg-primry !border-none`}`}>
-                    {user && datacart[0]?.totalQuantity }
+                  <div
+                    className={`absolute flex justify-center items-center shadow-[0_0_4px_0_rgba(0,0,0,0.1686)] w-[18px] h-[18px] border rounded-full text-[11px] border-sandstone top-[-6px] left-[-12px] bg-sandstone text-white text-Yekan ${
+                      !user && `!bg-primry !border-none`
+                    }`}
+                  >
+                    {user && datacart[0]?.totalQuantity}
                   </div>
                 </div>
               </Link>
