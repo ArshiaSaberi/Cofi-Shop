@@ -410,6 +410,7 @@ export default function Header() {
                         <div
                           onClick={() => {
                             setuser(null);
+                            setOpen(false)
                             setisclickremoveme(true);
                             toast.success("با موفقیت خارج شدید", {
                               position: "top-center",
@@ -456,6 +457,9 @@ export default function Header() {
                           <p>خروج</p>
                         </div>
                       )}
+
+
+
                     </div>
                   </>
                 ) : (
@@ -477,7 +481,7 @@ export default function Header() {
               <div className="mx-[15px] max-lg:w-[158px] max-md:w-[118px] lg:ml-[35px] max-md:h-[32px] ">
                 <Link href="/">
                   <Image
-                    className="max-lg:w-[158px] max-md:w-[118px] lg:ml-[35px] flex"
+                    className="mfax-lg:w-[158px] max-md:w-[118px] lg:ml-[35px] flex"
                     width={191}
                     height={52}
                     src="/fill-font-img-svg-icon/images/Logo.svg.png"
@@ -493,8 +497,8 @@ export default function Header() {
                   <svg className="w-[20px] h-[20px]">
                     <use href="#cartsmobile"></use>
                   </svg>
-                  <div className="absolute flex justify-center items-center shadow-[0_0_4px_0_rgba(0,0,0,0.1686)] w-[18px] h-[18px] border rounded-full text-[11px] border-sandstone top-[-6px] left-[-12px] bg-sandstone text-white text-Yekan">
-                    {datacart[0]?.totalQuantity || 0}
+                  <div className={`absolute flex justify-center items-center shadow-[0_0_4px_0_rgba(0,0,0,0.1686)] w-[18px] h-[18px] border rounded-full text-[11px] border-sandstone top-[-6px] left-[-12px] bg-sandstone text-white text-Yekan ${!user && `!bg-primry !border-none`}`}>
+                    {user && datacart[0]?.totalQuantity }
                   </div>
                 </div>
               </Link>
