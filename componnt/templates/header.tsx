@@ -78,9 +78,13 @@ export default function Header() {
   const [userLoading, setUserLoading] = useState(true);
   const router = useRouter();
 
-    const token = getCookie("token")
+  const [token, setToken] = useState<string | null>(null);
+  const [datacart, setdatacart] = useState<CartType[]>([]);
 
-  const [datacart, setdatacart] = useState<CartType[]>([])
+  useEffect(() => {
+    const t = getCookie("token");
+    setToken(t ? String(t) : null);
+  }, []);
 
   const { data, refetch } = useQuery<GetCartsResponse>({
     queryKey: ["cart", token],
@@ -89,37 +93,32 @@ export default function Header() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
+      });
 
-      if (!res.ok) return { carts: [] }
-      return res.json()
+      if (!res.ok) return { carts: [] };
+      return res.json();
     },
     enabled: !!token,
-  })
+  });
 
   useEffect(() => {
-    if (data?.carts) {
-      setdatacart(data.carts)
-    } else {
-      setdatacart([])
-    }
-  }, [data])
+    setdatacart(data?.carts ?? []);
+  }, [data]);
 
   useEffect(() => {
-    const handleCartUpdate = () => refetch()
+    const handleCartUpdate = () => refetch();
 
-    window.addEventListener("cartUpdated", handleCartUpdate)
+    window.addEventListener("cartUpdated", handleCartUpdate);
 
     return () => {
-      window.removeEventListener("cartUpdated", handleCartUpdate)
-    }
-  }, [refetch])
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, [refetch]);
 
 
 
 
-
-
+  
 
   useEffect(() => {
     const handleScroll = () => {
