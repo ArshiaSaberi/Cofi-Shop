@@ -87,24 +87,21 @@ export default function Header() {
     setToken(t ? String(t) : null);
   }, []);
 
-  const { data, refetch } = useQuery<GetCartsResponse>({
-    queryKey: ["cart", token],
-    queryFn: async () => {
-      if (!token) return { carts: [] }; // اگر token نیست، API نزنه
+const { data, refetch } = useQuery<GetCartsResponse>({
+  queryKey: ["cart", token],
+  queryFn: async () => {
+    if (!token) return { carts: [] }; // هیچوقت fetch نکن
+    const res = await fetch("/api/cart", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-      const res = await fetch("/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) return { carts: [] };
-      return res.json();
-    },
-    enabled: Boolean(token), // فقط وقتی token موجوده
-    retry: 4,
-    retryDelay: 2000,
-  });
+    if (!res.ok) return { carts: [] };
+    return res.json();
+  },
+  enabled: Boolean(token), // فقط وقتی token موجوده
+  retry: 3,
+  retryDelay: 2000,
+});
 
   // به‌روزرسانی state کارت
   useEffect(() => {

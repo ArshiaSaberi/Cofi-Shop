@@ -43,9 +43,7 @@ interface ErrorResponse {
 
 type GetCartsResult = GetCartsResponse | ErrorResponse;
 
-export async function GET(
-  req: NextRequest
-): Promise<NextResponse<GetCartsResult>> {
+async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult>> {
   try {
     // گرفتن توکن از کوکی
     const token = req.cookies.get("token")?.value;
@@ -68,6 +66,12 @@ export async function GET(
     }
 
     const userId = decoded?.id;
+    if (!userId) {
+      return NextResponse.json(
+        { carts: [], message: "توکن نامعتبر" },
+        { status: 401 }
+      );
+    }
 
     // گرفتن کارت‌ها با safe check
     let carts: HydratedDocument<CartType>[] = [];
@@ -75,7 +79,10 @@ export async function GET(
       carts = await Cart.find({
         user: userId,
         status: "active",
-      }).populate("items.product");
+      }).populate({
+        path: "items.product",
+        select: "_id name price", // فقط فیلدهای ضروری
+      });
     } catch (err) {
       console.error("DB ERROR:", err);
       return NextResponse.json(
@@ -84,13 +91,15 @@ export async function GET(
       );
     }
 
-    // فرمت امن
-    const formattedCarts: CartType[] = carts.map((cart) => ({
+    // فرمت امن کارت‌ها
+    const formattedCarts: CartType[] = (carts || []).map((cart) => ({
       ...cart.toObject(),
-      totalPrice:
-        cart.items?.reduce((sum, item) => sum + (item.finalPrice ?? 0), 0) ?? 0,
-      totalQuantity:
-        cart.items?.reduce((sum, item) => sum + (item.quantity ?? 0), 0) ?? 0,
+      totalPrice: Array.isArray(cart.items)
+        ? cart.items.reduce((sum, item) => sum + (item.finalPrice ?? 0), 0)
+        : 0,
+      totalQuantity: Array.isArray(cart.items)
+        ? cart.items.reduce((sum, item) => sum + (item.quantity ?? 0), 0)
+        : 0,
     }));
 
     return NextResponse.json({ carts: formattedCarts });
