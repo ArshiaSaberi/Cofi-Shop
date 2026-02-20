@@ -81,6 +81,7 @@ export default function Header() {
   const [token, setToken] = useState<string | null>(null);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
+  // گرفتن توکن از کوکی
   useEffect(() => {
     const t = getCookie("token");
     setToken(t ? String(t) : null);
@@ -89,6 +90,8 @@ export default function Header() {
   const { data, refetch } = useQuery<GetCartsResponse>({
     queryKey: ["cart", token],
     queryFn: async () => {
+      if (!token) return { carts: [] }; // اگر token نیست، API نزنه
+
       const res = await fetch("/api/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -98,29 +101,22 @@ export default function Header() {
       if (!res.ok) return { carts: [] };
       return res.json();
     },
-    enabled: !!token,
-     retry: 4,          // سه بار تلاش
-  retryDelay: 100,  // هر بار ۲ ثانیه صبر
+    enabled: Boolean(token), // فقط وقتی token موجوده
+    retry: 4,
+    retryDelay: 2000,
   });
 
+  // به‌روزرسانی state کارت
   useEffect(() => {
-    setdatacart(data?.carts ?? []);
+    if (data) setdatacart(data.carts ?? []);
   }, [data]);
 
+  // لیسنر برای رفرش کارت
   useEffect(() => {
     const handleCartUpdate = () => refetch();
-
     window.addEventListener("cartUpdated", handleCartUpdate);
-
-    return () => {
-      window.removeEventListener("cartUpdated", handleCartUpdate);
-    };
+    return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
-
-
-
-
-
 
   useEffect(() => {
     const handleScroll = () => {
