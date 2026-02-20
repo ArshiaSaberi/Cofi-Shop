@@ -81,40 +81,6 @@ export default function Header() {
   const [token, setToken] = useState<string | null>(null);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
-  // گرفتن توکن از کوکی
-  useEffect(() => {
-    const t = getCookie("token");
-    setToken(t ? String(t) : null);
-  }, []);
-
-const { data, refetch } = useQuery<GetCartsResponse>({
-  queryKey: ["cart", token],
-  queryFn: async () => {
-    if (!token) return { carts: [] }; // هیچوقت fetch نکن
-    const res = await fetch("/api/cart", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!res.ok) return { carts: [] };
-    return res.json();
-  },
-  enabled: Boolean(token), // فقط وقتی token موجوده
-  retry: 3,
-  retryDelay: 2000,
-});
-
-  // به‌روزرسانی state کارت
-  useEffect(() => {
-    if (data) setdatacart(data.carts ?? []);
-  }, [data]);
-
-  // لیسنر برای رفرش کارت
-  useEffect(() => {
-    const handleCartUpdate = () => refetch();
-    window.addEventListener("cartUpdated", handleCartUpdate);
-    return () => window.removeEventListener("cartUpdated", handleCartUpdate);
-  }, [refetch]);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 15);
@@ -167,6 +133,12 @@ const { data, refetch } = useQuery<GetCartsResponse>({
     }
   }, [searchvaluemobile]);
 
+  // گرفتن توکن از کوکی
+  useEffect(() => {
+    const t = getCookie("token");
+    setToken(t ? String(t) : null);
+  }, []);
+
   useEffect(() => {
     if (searchvalue.length > 2) {
       const findedes = datafetchsearchproduct.filter((item) => {
@@ -181,6 +153,34 @@ const { data, refetch } = useQuery<GetCartsResponse>({
       setincludessearch([]);
     }
   }, [searchvalue]);
+
+  const { data, refetch } = useQuery<GetCartsResponse>({
+    queryKey: ["cart", token],
+    queryFn: async () => {
+      if (!token) return { carts: [] }; // هیچوقت fetch نکن
+      const res = await fetch("/api/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) return { carts: [] };
+      return res.json();
+    },
+    enabled: Boolean(token), // فقط وقتی token موجوده
+    retry: 3,
+    retryDelay: 2000,
+  });
+
+  // به‌روزرسانی state کارت
+  useEffect(() => {
+    if (data) setdatacart(data.carts ?? []);
+  }, [data]);
+
+  // لیسنر برای رفرش کارت
+  useEffect(() => {
+    const handleCartUpdate = () => refetch();
+    window.addEventListener("cartUpdated", handleCartUpdate);
+    return () => window.removeEventListener("cartUpdated", handleCartUpdate);
+  }, [refetch]);
 
   const removeme = async () => {
     setuser(null);
