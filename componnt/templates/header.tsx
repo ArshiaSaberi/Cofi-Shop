@@ -99,6 +99,8 @@ export default function Header() {
       return res.json();
     },
     enabled: !!token,
+     retry: 4,          // سه بار تلاش
+  retryDelay: 100,  // هر بار ۲ ثانیه صبر
   });
 
   useEffect(() => {
@@ -118,7 +120,7 @@ export default function Header() {
 
 
 
-  
+
 
   useEffect(() => {
     const handleScroll = () => {

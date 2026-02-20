@@ -57,36 +57,45 @@ export async function GET(
     }
 
     // بررسی توکن
-    const decoded: AuthPayload | null = await verifyToken(token);
-    if (!decoded) {
+    let decoded: AuthPayload | null = null;
+    try {
+      decoded = await verifyToken(token);
+    } catch {
       return NextResponse.json(
         { carts: [], message: "توکن نامعتبر" },
         { status: 401 }
       );
     }
 
-    const userId = decoded.id;
+    const userId = decoded?.id;
 
-    // گرفتن کارت‌های فعال کاربر
-    const carts: HydratedDocument<CartType>[] = await Cart.find({
-      user: userId,
-      status: "active",
-    }).populate("items.product");
+    // گرفتن کارت‌ها با safe check
+    let carts: HydratedDocument<CartType>[] = [];
+    try {
+      carts = await Cart.find({
+        user: userId,
+        status: "active",
+      }).populate("items.product");
+    } catch (err) {
+      console.error("DB ERROR:", err);
+      return NextResponse.json(
+        { carts: [], message: "خطای دیتابیس" },
+        { status: 500 }
+      );
+    }
 
-    // فرمت نهایی برای اطمینان از داشتن totalPrice و totalQuantity
+    // فرمت امن
     const formattedCarts: CartType[] = carts.map((cart) => ({
       ...cart.toObject(),
       totalPrice:
-        cart.totalPrice ??
-        cart.items.reduce((sum, item) => sum + item.finalPrice, 0),
+        cart.items?.reduce((sum, item) => sum + (item.finalPrice ?? 0), 0) ?? 0,
       totalQuantity:
-        cart.totalQuantity ??
-        cart.items.reduce((sum, item) => sum + item.quantity, 0),
+        cart.items?.reduce((sum, item) => sum + (item.quantity ?? 0), 0) ?? 0,
     }));
 
     return NextResponse.json({ carts: formattedCarts });
   } catch (err) {
-    console.error(err);
+    console.error("SERVER ERROR:", err);
     return NextResponse.json(
       { carts: [], message: "خطای سرور" },
       { status: 500 }
