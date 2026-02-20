@@ -43,7 +43,7 @@ interface ErrorResponse {
 
 type GetCartsResult = GetCartsResponse | ErrorResponse;
 
-async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult>> {
+export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult>> {
   try {
     // گرفتن توکن از کوکی
     const token = req.cookies.get("token")?.value;
