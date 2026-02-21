@@ -262,7 +262,7 @@ export default function Header() {
     <div>
       <div
         className={`
-        fixed bg-primry/70 top-0 left-0 w-full z-50 pb-4
+        fixed bg-primry/70 top-0  left-0 w-full z-50 pb-4 ${!user && "backdrop-blur-[6px]"}
         ${
           scrolled
             ? `bg-primry/70 shadow-[0_0_4px_0_rgba(0,0,0,0.1686)] py-2  ${

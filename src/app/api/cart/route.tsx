@@ -46,8 +46,6 @@ type GetCartsResult = GetCartsResponse | ErrorResponse;
 
 export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult>> {
   try {
-
-
         await Conecttodb();
     
     // گرفتن توکن از کوکی

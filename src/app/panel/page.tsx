@@ -147,6 +147,7 @@ export default function UltimateUserPanel() {
       if (!res.ok) return { carts: [] };
       return res.json();
     },
+    staleTime: 1000 * 60 * 50,
   });
 
   const { data: commentData, isLoading: commentLoading } =
@@ -322,7 +323,7 @@ export default function UltimateUserPanel() {
               <div className="relative">
                 <div className="w-24 h-24 rounded-full border-2 border-[#EBE3D5] overflow-hidden bg-[#FDFCFB] flex items-center justify-center">
                   {previewImage || userProfile?.img ? (
-                    <img
+                    <Image width={100} height={100}
                       src={previewImage || userProfile?.img}
                       alt="avatar"
                       className="w-full h-full object-cover"
@@ -669,8 +670,8 @@ export default function UltimateUserPanel() {
                       <div className="flex items-center gap-4">
                         <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#F5F1EB] bg-gray-50 flex-shrink-0">
                           <Image
-                          width={100}
-                          height={100}
+                            width={100}
+                            height={100}
                             src={`/fill-font-img-svg-icon/images${
                               item.product.images?.[0] || ""
                             }`}
