@@ -104,7 +104,7 @@ export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult
 
     return NextResponse.json({ carts: formattedCarts });
   } catch (err) {
-    console.error("SERVER ERROR:", err);
+    console.error("SERVER ERROR aaa:", err);
     return NextResponse.json(
       { carts: [], message: "خطای سرور" },
       { status: 500 }
