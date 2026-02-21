@@ -3,6 +3,7 @@ import Cart from "@MOLDS/Cart";
 import connectDB from "database/db";
 import { HydratedDocument } from "mongoose";
 import { AuthPayload, verifyToken } from "@utils/auth";
+import Conecttodb from "database/db";
 
 // اتصال به دیتابیس
 connectDB();
@@ -45,6 +46,10 @@ type GetCartsResult = GetCartsResponse | ErrorResponse;
 
 export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult>> {
   try {
+
+
+        await Conecttodb();
+    
     // گرفتن توکن از کوکی
     const token = req.cookies.get("token")?.value;
     if (!token) {
@@ -115,6 +120,8 @@ export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult
 // ---------------- POST Cart ----------------
 export async function POST(req: NextRequest) {
   try {
+        await Conecttodb();
+    
     const body: PostCartBody = await req.json();
 
     const { user, product, quantity, price, finalPrice } = body;
