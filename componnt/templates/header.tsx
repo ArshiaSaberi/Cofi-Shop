@@ -157,7 +157,6 @@ export default function Header() {
   const { data, refetch } = useQuery<GetCartsResponse>({
     queryKey: ["cart", token],
     queryFn: async () => {
-      if (!token) return { carts: [] }; // هیچوقت fetch نکن
       const res = await fetch("/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -166,7 +165,8 @@ export default function Header() {
       return res.json();
     },
     enabled: Boolean(token), // فقط وقتی token موجوده
-    retry: 3,
+    retry: 6,
+    staleTime:0,
     retryDelay: 2000,
   });
 
