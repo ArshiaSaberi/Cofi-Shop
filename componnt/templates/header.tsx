@@ -133,12 +133,6 @@ export default function Header() {
     }
   }, [searchvaluemobile]);
 
-  // گرفتن توکن از کوکی
-  useEffect(() => {
-    const t = getCookie("token");
-    setToken(t ? String(t) : null);
-  }, []);
-
   useEffect(() => {
     if (searchvalue.length > 2) {
       const findedes = datafetchsearchproduct.filter((item) => {
@@ -153,34 +147,6 @@ export default function Header() {
       setincludessearch([]);
     }
   }, [searchvalue]);
-
-  const { data, refetch } = useQuery<GetCartsResponse>({
-    queryKey: ["cart", token],
-    queryFn: async () => {
-      const res = await fetch("/api/cart", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!res.ok) return { carts: [] };
-      return res.json();
-    },
-    enabled: !!token,
-    retry: 6,
-    staleTime:0,
-    retryDelay: 2000,
-  });
-
-  // به‌روزرسانی state کارت
-  useEffect(() => {
-    if (data) setdatacart(data.carts ?? []);
-  }, [data]);
-
-  // لیسنر برای رفرش کارت
-  useEffect(() => {
-    const handleCartUpdate = () => refetch();
-    window.addEventListener("cartUpdated", handleCartUpdate);
-    return () => window.removeEventListener("cartUpdated", handleCartUpdate);
-  }, [refetch]);
 
   const removeme = async () => {
     setuser(null);
@@ -256,6 +222,39 @@ export default function Header() {
       document.body.style.overflowY = "unset";
     };
   }, [open]);
+
+  const { data, refetch } = useQuery<GetCartsResponse>({
+    queryKey: ["cart", token],
+    queryFn: async () => {
+      const res = await fetch("/api/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) return { carts: [] };
+      return res.json();
+    },
+    enabled: !!token,
+    retry: 8,
+    staleTime: 0,
+    retryDelay: 2000,
+  });
+
+  // به‌روزرسانی state کارت
+  useEffect(() => {
+    if (data) setdatacart(data.carts ?? []);
+  }, [data]);
+
+  // لیسنر برای رفرش کارت
+  useEffect(() => {
+    const handleCartUpdate = () => refetch();
+    window.addEventListener("cartUpdated", handleCartUpdate);
+    return () => window.removeEventListener("cartUpdated", handleCartUpdate);
+  }, [refetch]);
+  // گرفتن توکن از کوکی
+  useEffect(() => {
+    const t = getCookie("token");
+    setToken(t ? String(t) : null);
+  }, []);
 
   //... (سایر useEffect ها در اینجا هستند)
   return (
