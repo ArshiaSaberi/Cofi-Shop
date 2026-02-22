@@ -254,7 +254,7 @@ export default function Header() {
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
- console.log(error);
+ console.log(error,datacart);
  
   //... (سایر useEffect ها در اینجا هستند)
   return (
@@ -507,10 +507,10 @@ export default function Header() {
                   </svg>
                   <div
                     className={`absolute flex justify-center items-center shadow-[0_0_4px_0_rgba(0,0,0,0.1686)] w-[18px] h-[18px] border rounded-full text-[11px] border-sandstone top-[-6px] left-[-12px] bg-sandstone text-white text-Yekan ${
-                      !user && `!bg-primry !border-none`
+                      !user && `!bg-primry !border-none !text-amber-800`
                     }`}
                   >
-                    {user && datacart[0]?.totalQuantity}
+                    {user && datacart[0]?.totalQuantity || 0}
                   </div>
                 </div>
               </Link>
