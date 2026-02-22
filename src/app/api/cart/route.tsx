@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import Cart from "@MOLDS/Cart";
-import connectDB from "database/db";
 import { HydratedDocument } from "mongoose";
 import { AuthPayload, verifyToken } from "@utils/auth";
 import Conecttodb from "database/db";
 
-// اتصال به دیتابیس
-connectDB();
 
 // تعریف نوع آیتم داخل سبد خرید
 interface CartItem {
@@ -44,11 +41,12 @@ interface ErrorResponse {
 
 type GetCartsResult = GetCartsResponse | ErrorResponse;
 
-export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult>> {
+export async function GET(
+  req: NextRequest
+): Promise<NextResponse<GetCartsResult>> {
   try {
-        await Conecttodb();
-    
-    // گرفتن توکن از کوکی
+    await Conecttodb();
+
     const token = req.cookies.get("token")?.value;
     if (!token) {
       return NextResponse.json(
@@ -57,57 +55,45 @@ export async function GET(req: NextRequest): Promise<NextResponse<GetCartsResult
       );
     }
 
-    // بررسی توکن
-    let decoded: AuthPayload | null = null;
-    try {
-      decoded = await verifyToken(token);
-    } catch {
+    const decoded = await verifyToken(token).catch(() => null);
+    if (!decoded?.id) {
       return NextResponse.json(
         { carts: [], message: "توکن نامعتبر" },
         { status: 401 }
       );
     }
 
-    const userId = decoded?.id;
-    if (!userId) {
-      return NextResponse.json(
-        { carts: [], message: "توکن نامعتبر" },
-        { status: 401 }
-      );
-    }
-
-    // گرفتن کارت‌ها با safe check
-    let carts: HydratedDocument<CartType>[] = [];
-    try {
-      carts = await Cart.find({
-        user: userId,
-        status: "active",
-      }).populate({
+    const carts = await Cart.find({
+      user: decoded.id,
+      status: "active",
+    })
+      .populate({
         path: "items.product",
-        select: "_id name price", // فقط فیلدهای ضروری
-      });
-    } catch (err) {
-      console.error("DB ERROR:", err);
-      return NextResponse.json(
-        { carts: [], message: "خطای دیتابیس" },
-        { status: 500 }
-      );
-    }
+        select: "_id name price",
+      })
+      .lean(); 
 
-    // فرمت امن کارت‌ها
-    const formattedCarts: CartType[] = (carts || []).map((cart) => ({
-      ...cart.toObject(),
+    const formattedCarts = (carts || []).map((cart: any) => ({
+      ...cart,
       totalPrice: Array.isArray(cart.items)
-        ? cart.items.reduce((sum, item) => sum + (item.finalPrice ?? 0), 0)
+        ? cart.items.reduce(
+            (sum: number, item: any) =>
+              sum + (item.finalPrice ?? 0),
+            0
+          )
         : 0,
       totalQuantity: Array.isArray(cart.items)
-        ? cart.items.reduce((sum, item) => sum + (item.quantity ?? 0), 0)
+        ? cart.items.reduce(
+            (sum: number, item: any) =>
+              sum + (item.quantity ?? 0),
+            0
+          )
         : 0,
     }));
 
     return NextResponse.json({ carts: formattedCarts });
   } catch (err) {
-    console.error("SERVER ERROR aaa:", err);
+    console.error("SERVER ERROR:", err);
     return NextResponse.json(
       { carts: [], message: "خطای سرور" },
       { status: 500 }
