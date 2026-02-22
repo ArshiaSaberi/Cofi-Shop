@@ -164,7 +164,7 @@ export default function Header() {
       if (!res.ok) return { carts: [] };
       return res.json();
     },
-    enabled: Boolean(token), // فقط وقتی token موجوده
+    enabled: !!token,
     retry: 6,
     staleTime:0,
     retryDelay: 2000,
