@@ -205,7 +205,11 @@ export default function Header() {
     handleClick(); // فراخوانی تابع handleClick
   }, [isclickremoveme]); // وابسته به تغییر isclickremoveme
 
-  //... (سایر useEffect ها در اینجا هستند)
+ // گرفتن توکن از کوکی
+  useEffect(() => {
+    const t = getCookie("token");
+    setToken(t ? String(t) : null);
+  }, []);
 
   useEffect(() => {
     // اگر هر یک از مودال‌ها باز باشد، اسکرول را مخفی کن
@@ -223,7 +227,7 @@ export default function Header() {
     };
   }, [open]);
 
-  const { data, refetch } = useQuery<GetCartsResponse>({
+  const { data, refetch,error } = useQuery<GetCartsResponse>({
     queryKey: ["cart", token],
     queryFn: async () => {
       const res = await fetch("/api/cart", {
@@ -250,12 +254,8 @@ export default function Header() {
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
-  // گرفتن توکن از کوکی
-  useEffect(() => {
-    const t = getCookie("token");
-    setToken(t ? String(t) : null);
-  }, []);
-
+ console.log(error);
+ 
   //... (سایر useEffect ها در اینجا هستند)
   return (
     <div>
