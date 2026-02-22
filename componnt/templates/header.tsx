@@ -234,9 +234,9 @@ export default function Header() {
       return res.json();
     },
     enabled: !!token,
-    retry: 8,
+    retry: 12,
     staleTime: 0,
-    retryDelay: 2000,
+    retryDelay: 2500,
   });
 
   // به‌روزرسانی state کارت
