@@ -667,6 +667,7 @@ export default function UltimateUserPanel() {
                       key={item.product._id}
                       className="p-6 flex items-center justify-between border-b border-[#F5F1EB] last:border-0 hover:bg-[#FDFCFB] transition-colors"
                     >
+                     
                       <div className="flex items-center gap-4">
                         <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#F5F1EB] bg-gray-50 flex-shrink-0">
                           <Image
