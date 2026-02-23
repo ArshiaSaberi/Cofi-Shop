@@ -70,6 +70,7 @@ export default function Header() {
   const [showmodaluser, setshowmodaluser] = useState(false);
   const [searchvaluemobile, setsearchvaluemobile] = useState("");
   const [includessearch, setincludessearch] = useState<ProductType[]>([]);
+const hasRefetched = useRef(false);
 
   const [datafetchsearchproduct, setdatasearchproduct] = useState<
     ProductType[]
@@ -257,7 +258,19 @@ export default function Header() {
   }, [refetch]);
  console.log(error,datacart);
  
-  //... (سایر useEffect ها در اینجا هستند)
+
+useEffect(() => {
+  if (
+    user &&
+    !hasRefetched.current &&
+    (datacart[0]?.totalQuantity === 0 ||
+      datacart[0]?.totalQuantity == null)
+  ) {
+    hasRefetched.current = true;
+    refetch();
+  }
+}, [user, datacart, refetch]);
+
   return (
     <div>
       <div
