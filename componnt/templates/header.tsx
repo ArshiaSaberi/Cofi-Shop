@@ -254,7 +254,7 @@ export default function Header() {
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
- console.log(error,datacart);
+ console.log(error,user);
  
   //... (سایر useEffect ها در اینجا هستند)
   return (
