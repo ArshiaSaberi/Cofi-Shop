@@ -254,6 +254,28 @@ export default function Header() {
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
+
+
+
+
+
+const hasRefetched = useRef(false);
+
+useEffect(() => {
+  if (
+    user &&
+    datacart &&
+    !hasRefetched.current &&
+    (datacart[0]?.totalQuantity === 0 ||
+      datacart[0]?.totalQuantity == null)
+  ) {
+    hasRefetched.current = true;
+    refetch();
+  }
+}, [user, datacart, refetch]);
+
+
+  
  console.log(error,datacart);
  
   //... (سایر useEffect ها در اینجا هستند)
