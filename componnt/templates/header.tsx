@@ -256,7 +256,7 @@ const hasRefetched = useRef(false);
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
- console.log(error,datacart);
+ console.log(error,datacart,user,token);
  
 
 useEffect(() => {
