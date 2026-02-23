@@ -256,7 +256,7 @@ const hasRefetched = useRef(false);
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
- console.log(error,datacart,user,token);
+ console.log(error,datacart,user,token,11);
  
 
 useEffect(() => {
@@ -269,7 +269,7 @@ useEffect(() => {
     hasRefetched.current = true;
     refetch();
   }
-}, [user, datacart, refetch]);
+});
 
   return (
     <div>
