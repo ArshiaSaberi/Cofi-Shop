@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRef } from "react";
 import Image from "next/image";
 import { IUser } from "@MOLDS/users";
 import { deleteUserAction } from "@utils/authActions/auth";
@@ -254,7 +255,7 @@ export default function Header() {
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
- console.log(error,user);
+ console.log(error,datacart);
  
   //... (سایر useEffect ها در اینجا هستند)
   return (
