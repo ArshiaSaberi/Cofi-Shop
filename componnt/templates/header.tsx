@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRef } from "react";
 import Image from "next/image";
 import { IUser } from "@MOLDS/users";
 import { deleteUserAction } from "@utils/authActions/auth";
