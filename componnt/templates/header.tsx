@@ -83,6 +83,41 @@ const hasRefetched = useRef(false);
   const [token, setToken] = useState<string | null>(null);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
+
+
+    // تابع برای فچ کردن داده‌های کاربر
+  const fetchData = async () => {
+    try {
+      const token = document.cookie
+        .split("; ") // جدا کردن هر کوکی
+        .find((row) => row.startsWith("token=")) // پیدا کردن کوکی‌ای که نامش 'token' باشد
+        ?.split("=")[1]; // جدا کردن مقدار token از کل رشته
+
+      setUserLoading(true);
+
+      if (token?.trim()) {
+        const response = await fetch("/api/auth", {
+          method: "GET", // چون API GET است
+          credentials: "include", // ارسال کوکی به سرور
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setuser(data.data);
+      } else {
+        setuser(null);
+      }
+    } catch (error) {
+      console.error("Fetch error: ", error);
+    } finally {
+      setUserLoading(false);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 15);
@@ -161,38 +196,7 @@ const hasRefetched = useRef(false);
     }
   };
 
-  // تابع برای فچ کردن داده‌های کاربر
-  const fetchData = async () => {
-    try {
-      const token = document.cookie
-        .split("; ") // جدا کردن هر کوکی
-        .find((row) => row.startsWith("token=")) // پیدا کردن کوکی‌ای که نامش 'token' باشد
-        ?.split("=")[1]; // جدا کردن مقدار token از کل رشته
 
-      setUserLoading(true);
-
-      if (token?.trim()) {
-        const response = await fetch("/api/auth", {
-          method: "GET", // چون API GET است
-          credentials: "include", // ارسال کوکی به سرور
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setuser(data.data);
-      } else {
-        setuser(null);
-      }
-    } catch (error) {
-      console.error("Fetch error: ", error);
-    } finally {
-      setUserLoading(false);
-    }
-  };
 
   useEffect(() => {
     setuser(null);
@@ -232,23 +236,25 @@ const hasRefetched = useRef(false);
   const { data, refetch,error } = useQuery<GetCartsResponse>({
     queryKey: ["cart", token],
     queryFn: async () => {
+      fetchData()
       const res = await fetch("/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!res.ok) return { carts: [] };
-      return res.json();
+      const data = await res.json()
+      setdatacart(data?.carts)
+      return data;
     },
     enabled: !!token,
     retry: 12,
-    staleTime: 0,
     retryDelay: 2500,
   });
 
   // به‌روزرسانی state کارت
   useEffect(() => {
-    if (data) setdatacart(data.carts ?? []);
-  }, [data]);
+    if (user && !datacart.length) refetch();
+  }, [refetch]);
 
   // لیسنر برای رفرش کارت
   useEffect(() => {
@@ -256,6 +262,9 @@ const hasRefetched = useRef(false);
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => window.removeEventListener("cartUpdated", handleCartUpdate);
   }, [refetch]);
+
+
+
  console.log(error,datacart,user,token,11);
  
 
@@ -269,7 +278,7 @@ useEffect(() => {
     hasRefetched.current = true;
     refetch();
   }
-});
+},[user]);
 
   return (
     <div>
