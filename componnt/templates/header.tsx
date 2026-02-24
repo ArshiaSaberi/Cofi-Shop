@@ -253,8 +253,8 @@ const hasRefetched = useRef(false);
 
   // به‌روزرسانی state کارت
   useEffect(() => {
-    if (user && !datacart.length) refetch();
-  }, [refetch]);
+    if (user && !data?.length) refetch();
+  });
 
   // لیسنر برای رفرش کارت
   useEffect(() => {
@@ -265,7 +265,7 @@ const hasRefetched = useRef(false);
 
 
 
- console.log(error,datacart,user,token,11);
+ console.log(error,datacart,user,token,data,11);
  
 
 useEffect(() => {
