@@ -279,9 +279,11 @@ useEffect(() => {
     refetch();
   }
 },[user]);
-if (token && user && !datacart.carts){
+useEffect(()=>{
+  if (token && user && !datacart?.carts){
   refetch()
 }
+},[token])
 
   return (
     <div>
