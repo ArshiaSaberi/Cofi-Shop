@@ -279,7 +279,7 @@ useEffect(() => {
     refetch();
   }
 },[user]);
-if (token){
+if (token && user && !datacart.carts){
   refetch()
 }
 
