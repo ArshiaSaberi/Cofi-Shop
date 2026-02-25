@@ -120,6 +120,7 @@ export default function UltimateUserPanel() {
   const [activeTab, setActiveTab] = useState<TabType>("profile");
   const [showCurrentPass, setShowCurrentPass] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [cartItems, setcartItems] = useState<CartItem | []>();
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -140,7 +141,11 @@ export default function UltimateUserPanel() {
       },
     });
 
-  const { data: cartData, isLoading: cartLoading,refetch } = useQuery<CartResponse>({
+  const {
+    data: cartData,
+    isLoading: cartLoading,
+    refetch,
+  } = useQuery<CartResponse>({
     queryKey: ["cart"],
     queryFn: async () => {
       const res = await fetch("/api/cart");
@@ -148,15 +153,15 @@ export default function UltimateUserPanel() {
       return res.json();
     },
     staleTime: 1000 * 60 * 50,
-    retry:12,
-    retryDelay:2500
+    retry: 12,
+    retryDelay: 2500,
   });
 
-  useEffect(()=>{
-    if (userProfileData && !cartData?.carts.length){
-    refetch()
-  }
-  },[userProfileData])
+  useEffect(() => {
+    if (userProfileData && !cartData?.carts.length) {
+      refetch();
+    }
+  }, [userProfileData]);
 
   const { data: commentData, isLoading: commentLoading } =
     useQuery<CommentResponse>({
@@ -247,9 +252,13 @@ export default function UltimateUserPanel() {
       </div>
     );
   }
+  useEffect(() => {
+    refetch();
+
+    setcartItems(cartData?.carts?.[0]?.items || []);
+  }, [userProfileData]);
 
   const userProfile = userProfileData?.data;
-  const cartItems = cartData?.carts?.[0]?.items || [];
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
@@ -331,7 +340,9 @@ export default function UltimateUserPanel() {
               <div className="relative">
                 <div className="w-24 h-24 rounded-full border-2 border-[#EBE3D5] overflow-hidden bg-[#FDFCFB] flex items-center justify-center">
                   {previewImage || userProfile?.img ? (
-                    <Image width={100} height={100}
+                    <Image
+                      width={100}
+                      height={100}
                       src={previewImage || userProfile?.img}
                       alt="avatar"
                       className="w-full h-full object-cover"
@@ -657,14 +668,14 @@ export default function UltimateUserPanel() {
                 سبد خرید شما
                 <span className="mr-2 px-2.5 py-0.5 bg-[#F5F1EB] text-[#B39371] text-xs rounded-lg border border-[#EBE3D5]">
                   {toPersianNumber(
-                    cartItems.reduce((acc, item) => acc + item.quantity, 0)
+                    cartItems?.reduce((acc, item) => acc + item.quantity, 0)
                   )}{" "}
                   کالا
                 </span>
               </h2>
             </div>
 
-            {cartItems.length === 0 ? (
+            {cartItems?.length === 0 ? (
               <Empty text="سبد خرید شما در حال حاضر خالی است" />
             ) : (
               <div className="bg-white rounded-3xl border border-[#EBE3D5] overflow-hidden shadow-sm transition-all hover:shadow-md">
@@ -675,7 +686,6 @@ export default function UltimateUserPanel() {
                       key={item.product._id}
                       className="p-6 flex items-center justify-between border-b border-[#F5F1EB] last:border-0 hover:bg-[#FDFCFB] transition-colors"
                     >
-                     
                       <div className="flex items-center gap-4">
                         <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#F5F1EB] bg-gray-50 flex-shrink-0">
                           <Image
