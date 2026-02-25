@@ -83,7 +83,11 @@ const hasRefetched = useRef(false);
   const [token, setToken] = useState<string | null>(null);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
-
+useEffect(()=>{
+  if (token && user && !datacart[0]?.totalQuantity){
+  refetch()
+}
+},[token,user])
 
     // تابع برای فچ کردن داده‌های کاربر
   const fetchData = async () => {
@@ -281,11 +285,7 @@ useEffect(() => {
     refetch();
   }
 },[user]);
-useEffect(()=>{
-  if (token && user && !datacart[0]?.totalQuantity){
-  refetch()
-}
-},[token,user])
+
 
   return (
     <div>
