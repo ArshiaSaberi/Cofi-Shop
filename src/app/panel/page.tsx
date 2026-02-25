@@ -252,9 +252,7 @@ export default function UltimateUserPanel() {
       return toast.error("تغییری ایجاد نشده است");
     updateMutation.mutate(payload);
   };
-    useEffect(() => {
-    refetch();
-  }, [userProfileData]);
+  
 
 
   if (userLoading || cartLoading || commentLoading || questionLoading) {
