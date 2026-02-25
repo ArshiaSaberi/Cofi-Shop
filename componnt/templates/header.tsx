@@ -248,7 +248,9 @@ const hasRefetched = useRef(false);
     },
     enabled: !!token,
     retry: 12,
+    
     retryDelay: 2500,
+    staleTime:1000 * 60,
   });
 
   // به‌روزرسانی state کارت
@@ -280,7 +282,7 @@ useEffect(() => {
   }
 },[user]);
 useEffect(()=>{
-  if (token && user && !datacart?.carts){
+  if (token && user && !datacart[0]?.totalQuantity){
   refetch()
 }
 },[token])
