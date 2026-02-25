@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   User,
@@ -140,7 +140,7 @@ export default function UltimateUserPanel() {
       },
     });
 
-  const { data: cartData, isLoading: cartLoading } = useQuery<CartResponse>({
+  const { data: cartData, isLoading: cartLoading,refetch } = useQuery<CartResponse>({
     queryKey: ["cart"],
     queryFn: async () => {
       const res = await fetch("/api/cart");
@@ -148,7 +148,15 @@ export default function UltimateUserPanel() {
       return res.json();
     },
     staleTime: 1000 * 60 * 50,
+    retry:12,
+    retryDelay:2500
   });
+
+  useEffect(()=>{
+    if (userProfileData && !cartData?.carts.length){
+    refetch()
+  }
+  },[userProfileData])
 
   const { data: commentData, isLoading: commentLoading } =
     useQuery<CommentResponse>({
