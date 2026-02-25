@@ -674,7 +674,7 @@ export default function ProfessionalProductPage() {
     return stars;
   };
 
-  if (loading)
+  if (!comments.length && !user.length && !product?.title && !cart?.items.length )
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FDFCFB]">
         <div className="flex flex-col items-center gap-3">
