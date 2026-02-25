@@ -285,7 +285,7 @@ useEffect(()=>{
   if (token && user && !datacart[0]?.totalQuantity){
   refetch()
 }
-},[token])
+},[token,user])
 
   return (
     <div>
