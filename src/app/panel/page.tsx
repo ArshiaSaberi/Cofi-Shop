@@ -140,6 +140,8 @@ export default function UltimateUserPanel() {
         return res.json();
       },
     });
+  const userProfile = userProfileData?.data;
+
     useEffect(()=>{
       if(userProfile && !cartItems.length){
         refetch()
@@ -264,7 +266,6 @@ export default function UltimateUserPanel() {
     );
   }
 
-  const userProfile = userProfileData?.data;
 
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
