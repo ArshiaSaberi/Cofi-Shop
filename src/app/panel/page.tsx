@@ -158,10 +158,8 @@ export default function UltimateUserPanel() {
   });
 
   useEffect(() => {
-    if (userProfileData && !cartData?.carts.length) {
-      refetch();
-    }
-  }, [userProfileData]);
+    setcartItems(cartData?.carts?.[0]?.items || []);
+  }, [userProfileData,cartData]);
 
   const { data: commentData, isLoading: commentLoading } =
     useQuery<CommentResponse>({
