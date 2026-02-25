@@ -257,10 +257,6 @@ useEffect(()=>{
     staleTime:1000 * 60,
   });
 
-  // به‌روزرسانی state کارت
-  useEffect(() => {
-    if (user && !datacart.length) refetch();
-  }, [user]);
 
   // لیسنر برای رفرش کارت
   useEffect(() => {
