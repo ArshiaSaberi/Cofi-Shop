@@ -120,7 +120,7 @@ export default function UltimateUserPanel() {
   const [activeTab, setActiveTab] = useState<TabType>("profile");
   const [showCurrentPass, setShowCurrentPass] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [cartItems, setcartItems] = useState<CartItem | []>();
+  const [cartItems, setcartItems] = useState<CartItem[] | []>([]);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -243,6 +243,12 @@ export default function UltimateUserPanel() {
       return toast.error("تغییری ایجاد نشده است");
     updateMutation.mutate(payload);
   };
+    useEffect(() => {
+    refetch();
+
+    setcartItems(cartData?.carts?.[0]?.items || []);
+  }, [userProfileData]);
+
 
   if (userLoading || cartLoading || commentLoading || questionLoading) {
     return (
@@ -252,11 +258,6 @@ export default function UltimateUserPanel() {
       </div>
     );
   }
-  useEffect(() => {
-    refetch();
-
-    setcartItems(cartData?.carts?.[0]?.items || []);
-  }, [userProfileData]);
 
   const userProfile = userProfileData?.data;
 
