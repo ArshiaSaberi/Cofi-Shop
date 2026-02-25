@@ -238,7 +238,7 @@ useEffect(()=>{
   }, [open]);
 
   const { data, refetch,error } = useQuery<GetCartsResponse>({
-    queryKey: ["cart"],
+    queryKey: ["Cart"],
     queryFn: async () => {
       fetchData()
       const res = await fetch("/api/cart", {

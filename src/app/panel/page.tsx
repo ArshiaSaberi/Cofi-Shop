@@ -153,7 +153,7 @@ export default function UltimateUserPanel() {
     isLoading: cartLoading,
     refetch,
   } = useQuery<CartResponse>({
-    queryKey: ["cart"],
+    queryKey: ["Cart"],
     queryFn: async () => {
       const res = await fetch("/api/cart");
       const data = await res.json()
