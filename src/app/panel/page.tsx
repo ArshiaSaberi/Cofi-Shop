@@ -143,7 +143,7 @@ export default function UltimateUserPanel() {
   const userProfile = userProfileData?.data;
 
     useEffect(()=>{
-      if(userProfile && !cartItems.length){
+      if(userProfileData?.data.username && !cartItems.length){
         refetch()
       }
     },[userProfile])
