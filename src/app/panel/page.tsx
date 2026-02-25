@@ -149,7 +149,11 @@ export default function UltimateUserPanel() {
     queryKey: ["cart"],
     queryFn: async () => {
       const res = await fetch("/api/cart");
+      const data = await res.json()
+
       if (!res.ok) return { carts: [] };
+    setcartItems(data?.carts?.[0]?.items || []);
+
       return res.json();
     },
     staleTime: 1000 * 60 * 50,
