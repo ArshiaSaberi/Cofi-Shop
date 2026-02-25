@@ -140,6 +140,11 @@ export default function UltimateUserPanel() {
         return res.json();
       },
     });
+    useEffect(()=>{
+      if(userProfile && !cartItems.length){
+        refetch()
+      }
+    },[userProfile])
 
   const {
     data: cartData,
@@ -247,8 +252,6 @@ export default function UltimateUserPanel() {
   };
     useEffect(() => {
     refetch();
-
-    setcartItems(cartData?.carts?.[0]?.items || []);
   }, [userProfileData]);
 
 
