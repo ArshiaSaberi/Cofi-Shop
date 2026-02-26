@@ -674,9 +674,9 @@ export default function ProfessionalProductPage() {
     return stars;
   };
 
-  if (!comments.length && !user.length && !cart?.items.length )
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FDFCFB]">
+if (!product?._id)
+return (
+<div className="min-h-screen flex items-center justify-center bg-[#FDFCFB]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[#B39371] border-t-transparent rounded-full animate-spin"></div>
           <p className="font-vazir text-[#3D2B1F] animate-pulse">
@@ -684,16 +684,9 @@ export default function ProfessionalProductPage() {
           </p>
         </div>
       </div>
-    );
+);
 
-  if (!product)
-    return (
-      <div className="min-h-screen flex items-center justify-center font-vazir text-xl">
-        محصول یافت نشد.
-      </div>
-    );
-
-  const staticImage = product.images[0]
+  const staticImage = product?.images[0]
     
 
   return (

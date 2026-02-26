@@ -16,7 +16,7 @@ export interface ProductType {
   category: string;
   price: number;
   description: string;
-  images: string;
+  images: string[];
   discountPercent: number;
   count: number;
   finalPrice: number;
@@ -83,11 +83,11 @@ const hasRefetched = useRef(false);
   const [token, setToken] = useState<string | null>(null);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
-useEffect(()=>{
-  if (token && user && !datacart[0]?.totalQuantity){
-  refetch()
-}
-},[token,user])
+// useEffect(()=>{
+//   if (token && user && !datacart[0]?.totalQuantity){
+//   refetch()
+// }
+// },[token,user])
 
     // تابع برای فچ کردن داده‌های کاربر
   const fetchData = async () => {

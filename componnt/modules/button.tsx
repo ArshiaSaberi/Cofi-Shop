@@ -31,7 +31,7 @@ interface GetCartsResponse {
   carts: Cart[];
 }
 
-export default function Button({ id }: { id: string }) {
+export default function Button({ id }: { id: string | null }) {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
