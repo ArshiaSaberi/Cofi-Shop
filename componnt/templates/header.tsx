@@ -83,11 +83,11 @@ const hasRefetched = useRef(false);
   const [token, setToken] = useState<string | null>(null);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
-// useEffect(()=>{
-//   if (token && user && !datacart[0]?.totalQuantity){
-//   refetch()
-// }
-// },[token,user])
+useEffect(()=>{
+  if (token && user && !datacart[0]?.totalQuantity){
+  refetch()
+}
+},[token,user])
 
     // تابع برای فچ کردن داده‌های کاربر
   const fetchData = async () => {
@@ -227,8 +227,6 @@ const hasRefetched = useRef(false);
       document.body.style.overflowY = "hidden";
     } else {
       // اگر هیچ مودالی باز نیست، اسکرول را فعال کن تا صفحه عادی رفتار کند.
-      // اگر می‌خواهید در حالت عادی هم اسکرول نباشد، باید این خط را حذف کرده
-      // و از روش CSS سراسری (body { overflow-y: hidden; }) استفاده کنید.
       document.body.style.overflowY = "unset";
     }
 
