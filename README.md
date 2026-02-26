@@ -1,6 +1,6 @@
 # ☕ Cofi Shop
 
-یک پروژه فروشگاه کافی‌شاپ آنلاین که با استفاده از **Next.js**, **TypeScript**, **Tailwind CSS** و **ESLint** ساخته شده است.
+یک پروژه فروشگاه کافی‌شاپ آنلاین که با استفاده از **Next.js**, **TypeScript**, **Tailwind CSS**  ساخته شده است.
 
 ---
 
@@ -15,6 +15,7 @@
 
 - **Next.js**  
 - **TypeScript** 
+- **ReactQuery** 
 - **Tailwind CSS**
 - **ESLint** 
 
