@@ -84,7 +84,7 @@ const hasRefetched = useRef(false);
   const [datacart, setdatacart] = useState<CartType[]>([]);
 
 useEffect(()=>{
-  if (token && user && !datacart[0]?.totalQuantity){
+  if (token && user && datacart[0]?.totalQuantity === 0){
   refetch()
 }
 },[token,user])
@@ -265,7 +265,7 @@ useEffect(()=>{
 
 
   useEffect(()=>{
-  if (user && !datacart[0]?.totalQuantity){
+  if (user && datacart[0]?.totalQuantity === 0){
   refetch()
 }
 },[user])
