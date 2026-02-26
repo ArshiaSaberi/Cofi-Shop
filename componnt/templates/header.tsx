@@ -264,6 +264,13 @@ useEffect(()=>{
   }, [refetch]);
 
 
+  useEffect(()=>{
+  if (user && !datacart[0]?.totalQuantity){
+  refetch()
+}
+},[user])
+
+
 
  console.log(error,datacart,user,data,token,11);
  
