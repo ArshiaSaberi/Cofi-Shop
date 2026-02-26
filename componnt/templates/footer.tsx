@@ -91,13 +91,9 @@ export default function Footer(){
                       <p className="w-[360.75px] h-[24px] text-[#A1A1A1] text-[15px] leading-[24px] max-md:text-center max-[400px]:w-[230px]">
                         تمام حقوق این سایت متعلق به خانه قهوه چالوس میباشد
                       </p>
-                      <Image
-                        width={63}
-                        height={63}
-                        src="/fill-font-img-svg-icon/images/E.png"
-                        alt=""
-                        className=" min-w-[63px] min-h-[63px]"
-                      />
+                     <p>Built pixel by pixel by Arshia
+
+</p>
                     </div>
                   </div>
                 </div>
