@@ -40,7 +40,7 @@ export async function signupAction(formData: FormData) {
     lastname,
     email,
     username,
-    password: hashedPassword, // توجه کنید: pasword با s واحد
+    password: hashedPassword, 
   });
 
   // تولید توکن
@@ -90,9 +90,6 @@ export async function deleteUserAction(token: string) {
   try {
     if (!token) throw new Error("Token not found");
 
-    // اینجا فقط می‌خوای توکن رو منقضی کنی، دیتابیس دست نخورده می‌مونه
-    // اگر JWT هست، می‌تونی سرور تایید کنه که این توکن باطل شده
-    // ولی در ساده‌ترین حالت، حذف کوکی کافی است
     return { message: "Token expired successfully", data: null };
   } catch (error) {
     if (error instanceof Error) {

@@ -30,7 +30,6 @@ export default function Comment({
     setTimeout(() => setAnimate(null), 100);
   };
 
-console.log(hasLiked);
 
 
   return (

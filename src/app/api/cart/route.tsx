@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Cart from "@MOLDS/Cart";
-import { HydratedDocument } from "mongoose";
-import { AuthPayload, verifyToken } from "@utils/auth";
+import { verifyToken } from "@utils/auth";
 import Conecttodb from "database/db";
-
 
 // تعریف نوع آیتم داخل سبد خرید
 interface CartItem {
@@ -71,21 +69,19 @@ export async function GET(
         path: "items.product",
         select: "_id name price images",
       })
-      .lean(); 
+      .lean();
 
     const formattedCarts = (carts || []).map((cart: any) => ({
       ...cart,
       totalPrice: Array.isArray(cart.items)
         ? cart.items.reduce(
-            (sum: number, item: any) =>
-              sum + (item.finalPrice ?? 0),
+            (sum: number, item: any) => sum + (item.finalPrice ?? 0),
             0
           )
         : 0,
       totalQuantity: Array.isArray(cart.items)
         ? cart.items.reduce(
-            (sum: number, item: any) =>
-              sum + (item.quantity ?? 0),
+            (sum: number, item: any) => sum + (item.quantity ?? 0),
             0
           )
         : 0,
@@ -104,8 +100,8 @@ export async function GET(
 // ---------------- POST Cart ----------------
 export async function POST(req: NextRequest) {
   try {
-        await Conecttodb();
-    
+    await Conecttodb();
+
     const body: PostCartBody = await req.json();
 
     const { user, product, quantity, price, finalPrice } = body;
@@ -124,7 +120,7 @@ export async function POST(req: NextRequest) {
     if (!cart) {
       cart = new Cart({ user, items: [] });
     }
-
+    // findIndex = این متود روی ارایه زده میشه و اون ایندکس از ارایه رو برمیگردونه که با شرط داخلfindIndex یکسان و هماهنگ بود
     // بررسی محصول موجود در سبد
     const existingIndex = cart.items.findIndex(
       (item: CartItem) => item.product.toString() === product
@@ -140,12 +136,15 @@ export async function POST(req: NextRequest) {
 
     await cart.save();
 
-    return NextResponse.json({
-      message: "محصول با موفقیت اضافه شد",
-      cart,
-      totalPrice: cart.totalPrice,
-      totalQuantity: cart.totalQuantity,
-    });
+    return NextResponse.json(
+      {
+        message: "محصول با موفقیت اضافه شد",
+        cart,
+        totalPrice: cart.totalPrice,
+        totalQuantity: cart.totalQuantity,
+      },
+      { status: 201 }
+    );
   } catch (err) {
     console.error(err);
     return NextResponse.json({ message: "خطای سرور" }, { status: 500 });

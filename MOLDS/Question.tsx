@@ -15,7 +15,6 @@ const QuestionSchema = new mongoose.Schema({
     required: true,
   },
 
-  // ✅ چند پاسخ مدیریتی
   answers: [
     {
       text: { type: String, required: true },

@@ -8,7 +8,6 @@ export const GET = async () => {
   try {
     await Conecttodb();
 
-    // ⬇️ حتماً await
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 

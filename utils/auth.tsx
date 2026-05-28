@@ -21,7 +21,6 @@ export const generateToken = async (data: AuthPayload): Promise<string> => {
   });
 };
 
-// مقایسه پسورد با هش (ایمن)
 export const verifyPassword = async (
   password: string,
   hashedPassword?: string
@@ -30,7 +29,6 @@ export const verifyPassword = async (
   return compare(password, hashedPassword);
 };
 
-// بررسی توکن
 export const verifyToken = async (token: string): Promise<AuthPayload | null> => {
   try {
     const decoded = jwt.verify(token, "arshia015") as AuthPayload; // فرض بر این که AuthPayload شامل userId هست

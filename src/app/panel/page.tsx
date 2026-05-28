@@ -26,9 +26,6 @@ import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import Image from "next/image";
 
-/* =========================
-    TYPES (اصلاح شده)
-========================= */
 interface UserProfile {
   _id: string;
   firstname: string;

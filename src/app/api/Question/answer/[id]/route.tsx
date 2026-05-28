@@ -31,10 +31,7 @@ export async function POST(
   try {
     await Conecttodb();
 
-    // ✅ گرفتن id از params مثل قبل
-    const x = await params; // x.id
-
-    // ✅ گرفتن داده‌های فرانت‌اند
+    const x = await params;
     const { answer, adminId } = await req.json();
 
     // ✅ اعتبارسنجی

@@ -127,7 +127,6 @@ useEffect(()=>{
       setScrolled(window.scrollY > 15);
       setOpensearch(false);
     };
-
     const fetchDatasearch = async () => {
       try {
         const res = await fetch("/api/prodouct", {
@@ -272,7 +271,6 @@ useEffect(()=>{
 
 
 
- console.log(error,datacart,user,data,token,11);
  
 
 useEffect(() => {

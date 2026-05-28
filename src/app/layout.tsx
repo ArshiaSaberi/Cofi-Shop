@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { useQueryClient } from "@tanstack/react-query";
 import Providersquery from "@utils/queryprovider";
 export const metadata: Metadata = {
   title: "DIGICOFI",

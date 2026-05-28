@@ -38,7 +38,7 @@ export interface IQuestion {
   productId: string;
   userId: IUser;
 
-  answers: IAnswer[]; // ✅ همیشه وجود دارد
+  answers: IAnswer[]; 
 
   createdAt: string;
 }
@@ -135,7 +135,8 @@ const FEATURE_ICONS = {
   ),
 };
 
-export default function ProfessionalProductPage() {
+export default function ProfessionalProductPage({params:x}:{params:{id:string}}) {
+  
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -179,7 +180,7 @@ export default function ProfessionalProductPage() {
 
         if (token?.trim()) {
           const response = await fetch("/api/auth", {
-            method: "GET", // چون API GET است
+            method: "GET", 
             credentials: "include", // ارسال کوکی به سرور
             headers: {
               "Content-Type": "application/json",
@@ -247,7 +248,7 @@ export default function ProfessionalProductPage() {
   // ایجاد کامنت جدید
   // -------------------------
   const createComment = async () => {
-    if (!product?._id || !user) return; // حتما product و user داشته باشیم
+    if (!product?._id || !user) return; 
 
     const newComment = {
       comment: comments,
@@ -379,7 +380,7 @@ export default function ProfessionalProductPage() {
       const res = await fetch("/api/cart", { cache: "no-store" });
       const data = await res.json();
 
-      setCart(data.carts?.[0] ?? null); // اگر موجود نبود null
+      setCart(data.carts?.[0] ?? null); 
     } catch (err) {
       console.error("Cart Fetch Error:", err);
     } finally {

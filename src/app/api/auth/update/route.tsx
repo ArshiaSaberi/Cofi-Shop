@@ -47,7 +47,7 @@ export const POST = async (req: NextRequest) => {
       user.password = await hashPassword(newPassword);
     }
 
-    // ۴. آپلود عکس (فیلد img طبق دیتابیس شما)
+    // ۴. آپلود عکس)
     if (imageBase64) {
       const uploadsDir = path.join(process.cwd(), "public", "uploads");
       if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
@@ -82,7 +82,7 @@ export const POST = async (req: NextRequest) => {
       }
     }, { status: 200 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("Server Error:", error);
     return NextResponse.json({ error: "خطای داخلی سرور" }, { status: 500 });
   }
