@@ -263,11 +263,11 @@ useEffect(()=>{
   }, [refetch]);
 
 
-  useEffect(()=>{
-  if (user && datacart[0]?.totalQuantity === 0){
-  refetch()
-}
-},[user])
+//   useEffect(()=>{
+//   if (user && datacart[0]?.totalQuantity === 0){
+//   refetch()
+// }
+// },[user])
 
 
 
