@@ -11,6 +11,7 @@ interface ProductcartProps {
 export default function Productcart({ item, onUpdate }: ProductcartProps) {
   const product = item.product;
   
+  console.log(product);
   
   const data = { 
     ccount: product.count || 0,
