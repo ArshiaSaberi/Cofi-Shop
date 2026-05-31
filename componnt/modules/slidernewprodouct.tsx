@@ -29,7 +29,6 @@ export default function SliderNewProdouct(props: SliderProdouctProps) {
 
   // کارت واقعی با استایل اصلی خودت
   const productSlug = props.description.replace(/\s+/g, "-");
-  console.log(props.images);
 
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:p-[15px]">

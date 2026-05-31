@@ -67,7 +67,6 @@ export async function GET(
     })
       .populate({
         path: "items.product",
-        select: "_id name price images",
       })
       .lean();
 

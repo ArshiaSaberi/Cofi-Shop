@@ -11,12 +11,11 @@ interface ProductcartProps {
 export default function Productcart({ item, onUpdate }: ProductcartProps) {
   const product = item.product;
   
-  console.log(product);
-  
-  const data = { 
+
+  const data = {  
     ccount: product.count || 0,
     quantity: item.quantity,
-    id: item._id // استفاده از ID آیتم برای حذف درست
+    id: item._id 
   };
 
   return (

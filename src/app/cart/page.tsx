@@ -37,6 +37,7 @@ export default function CartPage() {
       try {
         const cartRes = await fetch("/api/cart");
         const res = await cartRes.json();
+
         if (res.carts?.length > 0) setCart(res.carts[0]);
       } catch (err) {
         console.error("Error:", err);
@@ -69,6 +70,7 @@ export default function CartPage() {
       totalPrice: newTotalPrc,
     });
   };
+  
 
   if (!cart) return <div className="p-10 text-center text-Yekan">در حال بارگذاری...</div>;
 

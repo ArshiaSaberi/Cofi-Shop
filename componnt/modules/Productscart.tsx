@@ -8,6 +8,7 @@ interface ProductscartProps {
 }
 
 export default function Productscart({ items, onUpdate }: ProductscartProps) {
+  
   return (
     <div className="w-[80%] ml-4 h-full flex flex-col gap-12 divide-y divide-[#0000001b]">
       {items.map((item) => (
